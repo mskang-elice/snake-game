@@ -157,6 +157,7 @@ function restartGame() {
     gameOver = false;
     score = 0;
     draw();
+    setTimeout(gameLoop, 100); // gameLoop 재시작
 }
 
 function handleKeydown(e) {
