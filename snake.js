@@ -159,7 +159,7 @@ function restartGame() {
     draw();
 }
 
-document.addEventListener('keydown', e => {
+function handleKeydown(e) {
     if (gameOver && e.code === 'Space') {
         restartGame();
         return;
@@ -170,7 +170,11 @@ document.addEventListener('keydown', e => {
         case 'ArrowLeft': if (direction.x !== 1) direction = { x: -1, y: 0 }; break;
         case 'ArrowRight': if (direction.x !== -1) direction = { x: 1, y: 0 }; break;
     }
-});
+}
+
+document.removeEventListener('keydown', handleKeydown); // 혹시 중복 방지
+
+document.addEventListener('keydown', handleKeydown);
 
 draw();
 gameLoop();
