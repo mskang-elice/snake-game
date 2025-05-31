@@ -75,7 +75,7 @@ function gameLoop() {
         ctx.fillText('Game Over!', 100, 200);
         ctx.font = '20px Arial';
         ctx.fillText('Score: ' + score, 150, 240);
-        ctx.fillText('Press F5 to Restart', 110, 280);
+        ctx.fillText('Press SPACE to Restart', 90, 280);
         return;
     }
     // 방향키 입력 전에는 움직이지 않음
@@ -86,7 +86,20 @@ function gameLoop() {
     setTimeout(gameLoop, 100);
 }
 
+function restartGame() {
+    snake = [{ x: 10, y: 10 }];
+    direction = { x: 0, y: 0 };
+    food = { x: 5, y: 5 };
+    gameOver = false;
+    score = 0;
+    draw();
+}
+
 document.addEventListener('keydown', e => {
+    if (gameOver && e.code === 'Space') {
+        restartGame();
+        return;
+    }
     switch (e.key) {
         case 'ArrowUp': if (direction.y !== 1) direction = { x: 0, y: -1 }; break;
         case 'ArrowDown': if (direction.y !== -1) direction = { x: 0, y: 1 }; break;
