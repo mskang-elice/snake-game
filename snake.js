@@ -78,7 +78,10 @@ function gameLoop() {
         ctx.fillText('Press F5 to Restart', 110, 280);
         return;
     }
-    moveSnake();
+    // 방향키 입력 전에는 움직이지 않음
+    if (direction.x !== 0 || direction.y !== 0) {
+        moveSnake();
+    }
     draw();
     setTimeout(gameLoop, 100);
 }
