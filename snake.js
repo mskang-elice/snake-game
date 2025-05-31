@@ -134,12 +134,21 @@ function placeFood() {
 
 function gameLoop() {
     if (gameOver) {
-        ctx.fillStyle = '#fff';
+        // 반투명 어두운 배경 박스
+        ctx.fillStyle = 'rgba(0,0,0,0.7)';
+        ctx.fillRect(50, 130, 300, 180);
+        // 게임 오버 텍스트 (흰색, 외곽선)
         ctx.font = '36px Arial';
-        ctx.fillText('Game Over!', 100, 200);
+        ctx.strokeStyle = '#222';
+        ctx.lineWidth = 4;
+        ctx.strokeText('Game Over!', 100, 180);
+        ctx.fillStyle = '#fff';
+        ctx.fillText('Game Over!', 100, 180);
         ctx.font = '20px Arial';
-        ctx.fillText('Score: ' + score, 150, 240);
-        ctx.fillText('Press SPACE to Restart', 90, 280);
+        ctx.strokeText('Score: ' + score, 150, 220);
+        ctx.fillText('Score: ' + score, 150, 220);
+        ctx.strokeText('Press SPACE to Restart', 90, 260);
+        ctx.fillText('Press SPACE to Restart', 90, 260);
         return;
     }
     // 방향키 입력 전에는 움직이지 않음
