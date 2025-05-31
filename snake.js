@@ -10,21 +10,85 @@ let gameOver = false;
 let score = 0;
 
 function draw() {
-    ctx.fillStyle = '#111';
+    // 1. 밝은 배경
+    ctx.fillStyle = '#e0ffe0';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Draw snake
-    ctx.fillStyle = '#0f0';
-    snake.forEach(part => {
-        ctx.fillRect(part.x * gridSize, part.y * gridSize, gridSize, gridSize);
+    // 5. 격자
+    ctx.strokeStyle = '#b0e0b0';
+    ctx.lineWidth = 1;
+    for (let i = 0; i <= tileCount; i++) {
+        ctx.beginPath();
+        ctx.moveTo(i * gridSize, 0);
+        ctx.lineTo(i * gridSize, canvas.height);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(0, i * gridSize);
+        ctx.lineTo(canvas.width, i * gridSize);
+        ctx.stroke();
+    }
+
+    // 2. 뱀 그리기 (원형), 3. 머리에 눈 추가
+    snake.forEach((part, idx) => {
+        ctx.beginPath();
+        ctx.arc(
+            part.x * gridSize + gridSize / 2,
+            part.y * gridSize + gridSize / 2,
+            gridSize / 2 - 2,
+            0, Math.PI * 2
+        );
+        ctx.fillStyle = idx === 0 ? '#2ecc40' : '#27ae60'; // 머리/몸통 색 구분
+        ctx.fill();
+        ctx.closePath();
+        // 머리에 눈 추가
+        if (idx === 0) {
+            let eyeOffsetX = direction.x === -1 ? -4 : direction.x === 1 ? 4 : 0;
+            let eyeOffsetY = direction.y === -1 ? -4 : direction.y === 1 ? 4 : 0;
+            // 왼쪽 눈
+            ctx.beginPath();
+            ctx.arc(
+                part.x * gridSize + gridSize / 2 - 4 + eyeOffsetX,
+                part.y * gridSize + gridSize / 2 - 4 + eyeOffsetY,
+                2, 0, Math.PI * 2
+            );
+            ctx.fillStyle = '#222';
+            ctx.fill();
+            ctx.closePath();
+            // 오른쪽 눈
+            ctx.beginPath();
+            ctx.arc(
+                part.x * gridSize + gridSize / 2 + 4 + eyeOffsetX,
+                part.y * gridSize + gridSize / 2 - 4 + eyeOffsetY,
+                2, 0, Math.PI * 2
+            );
+            ctx.fillStyle = '#222';
+            ctx.fill();
+            ctx.closePath();
+        }
     });
 
-    // Draw food
-    ctx.fillStyle = '#f00';
-    ctx.fillRect(food.x * gridSize, food.y * gridSize, gridSize, gridSize);
+    // 4. 사과(음식) 원형
+    ctx.beginPath();
+    ctx.arc(
+        food.x * gridSize + gridSize / 2,
+        food.y * gridSize + gridSize / 2,
+        gridSize / 2 - 2,
+        0, Math.PI * 2
+    );
+    ctx.fillStyle = '#ff4136';
+    ctx.fill();
+    ctx.closePath();
+    // 사과 꼭지
+    ctx.beginPath();
+    ctx.moveTo(food.x * gridSize + gridSize / 2, food.y * gridSize + gridSize / 2 - 8);
+    ctx.lineTo(food.x * gridSize + gridSize / 2, food.y * gridSize + gridSize / 2 - 12);
+    ctx.strokeStyle = '#964B00';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    ctx.closePath();
 
     // Draw score
-    ctx.fillStyle = '#fff';
+    ctx.fillStyle = '#333';
     ctx.font = '18px Arial';
     ctx.fillText('Score: ' + score, 10, 20);
 }
